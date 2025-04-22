@@ -41,6 +41,7 @@ const (
 	SASL_SHA512 SASLAlgorithm = "sha512"
 )
 
+// ProducerAsync 封装了异步 Kafka 消息发送接口，支持多种格式与 Key 指定发送
 type ProducerAsync interface {
 	PushMessage(topic string, data []byte) error
 	PushJsonMessage(topic string, data any) error
@@ -196,6 +197,7 @@ func (p *producerAsync) Close() {
 
 type ProducerAsyncOption func(*sarama.Config)
 
+// NewProducerAsyncFromSimpleCfg 根据配置结构体构建异步生产者
 func NewProducerAsyncFromSimpleCfg(cfg *SimpleProducerAsyncCfg, logger *zap.Logger) (ProducerAsync, error) {
 	if cfg == nil {
 		return nil, errors.New("kafka config is nil")
@@ -203,6 +205,8 @@ func NewProducerAsyncFromSimpleCfg(cfg *SimpleProducerAsyncCfg, logger *zap.Logg
 	config := cfg.BuildOptions()
 	return NewProducerAsync(cfg.Brokers, logger, config)
 }
+
+// NewProducerAsyncFromSimpleFile 根据配置文件构建异步生产者
 func NewProducerAsyncFromSimpleFile(path string, logger *zap.Logger) (ProducerAsync, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -293,6 +297,9 @@ func createTLSConfig(certFile, keyFile, caFile string, skipVerify bool) (*tls.Co
 
 	return tlsCfg, nil
 }
+
+// WithTLS 启用带客户端证书的 TLS 连接
+// certFile/keyFile/caFile 为 PEM 格式路径，skipVerify 是否跳过服务端校验
 func WithTLS(certFile, keyFile, caFile string, skipVerify bool) ProducerAsyncOption {
 	return func(cfg *sarama.Config) {
 		tlsCfg, err := createTLSConfig(certFile, keyFile, caFile, skipVerify)
@@ -304,7 +311,7 @@ func WithTLS(certFile, keyFile, caFile string, skipVerify bool) ProducerAsyncOpt
 	}
 }
 
-// WithTLSNoCert 仅启用 TLS，不加载客户端证书，可选跳过验证
+// WithTLSNoCert 启用 TLS 但不提供客户端证书，适用于 SASL + TLS 单向验证
 func WithTLSNoCert(skipVerify bool) ProducerAsyncOption {
 	return func(cfg *sarama.Config) {
 		cfg.Net.TLS.Enable = true
@@ -314,7 +321,8 @@ func WithTLSNoCert(skipVerify bool) ProducerAsyncOption {
 	}
 }
 
-// WithSASL 配置 Kafka SCRAM-SASL 认证（支持 SHA-256 / SHA-512）
+// WithSASL 配置 Kafka SCRAM-SASL 认证（支持 SHA256 / SHA512）
+// user/pwd 必须非空，否则不启用
 func WithSASL(user, pwd string, algo SASLAlgorithm) ProducerAsyncOption {
 	return func(cfg *sarama.Config) {
 		if user == "" || pwd == "" {
@@ -348,6 +356,8 @@ func WithClientID(id string) ProducerAsyncOption {
 	}
 }
 
+// WithPartitioner 设置 Kafka 的分区策略
+// hash 保证相同 key 的顺序性；manual 用于自定义分区
 func WithPartitioner(strategy PartitionerStrategy) ProducerAsyncOption {
 	return func(cfg *sarama.Config) {
 		switch strategy {
@@ -366,6 +376,7 @@ func WithPartitioner(strategy PartitionerStrategy) ProducerAsyncOption {
 	}
 }
 
+// WithMessageTimeout 设置生产者发送消息的超时时间
 func WithMessageTimeout(timeout time.Duration) ProducerAsyncOption {
 	return func(cfg *sarama.Config) {
 		cfg.Producer.Timeout = timeout
