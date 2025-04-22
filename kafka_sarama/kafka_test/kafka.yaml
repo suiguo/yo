@@ -1,0 +1,22 @@
+brokers:
+  - 127.0.0.1:9092
+client_id: "client-id-1"
+version:          # Kafka 版本，如 "2.8.0"、"3.1.0"
+
+acks: "all"                   # 可选值: "all" / "local" / "none"
+retry_max: 5                 # 最大重试次数
+partitioner: "random"          # 可选值: "random" / "hash" / "roundrobin" / "manual"
+timeout_ms: 3000             # 发送超时时间（毫秒）
+
+sasl:
+  enable: false
+  user: "your-username"
+  password: "your-password"
+  algo: "sha512"             # 可选值: sha256 / sha512
+
+tls:
+  enable: false
+  cert_file: "./certs/client.crt"
+  key_file: "./certs/client.key"
+  ca_cert_file: "./certs/ca.crt"
+  skip_verify: false         # 是否跳过证书校验（开发时可设为 true）

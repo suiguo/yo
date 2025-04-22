@@ -1,0 +1,7 @@
+namespace: b21d7ef9-19a6-41e7-ac2a-cee7a1d5654c
+username: nacos
+password: nacos
+hosts:
+  - "http://127.0.0.1:8848"
+grpc_ports: 
+tls: null

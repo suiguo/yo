@@ -1,0 +1,7 @@
+- output:
+    - log/test.log
+  level: info
+  maxsize: 20
+  maxbackups: 3
+  maxage: 5
+  compress: false
