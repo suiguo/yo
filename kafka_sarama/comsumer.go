@@ -32,7 +32,8 @@ type GroupComsumer interface {
 	SubTopicsWithContext(ctx context.Context, topics []string, handler MessageHandler) (string, error) // 带上下文的订阅
 	UnSub(session_id string)                                                                           // 取消指定 session_id 的订阅
 	UnSubAll()                                                                                         // 取消所有订阅
-	Close()                                                                                            // 关闭消费者
+	ListSubscriptions() map[string][]string
+	Close() // 关闭消费者
 }
 
 // contextKey 是自定义 context key 类型
