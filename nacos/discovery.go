@@ -70,6 +70,7 @@ type Discovery interface {
 	GetServiceWithCluster(service_name, group_name string, clusters []string) (model.Service, error)
 	Subscribe(service_name, group string, clusters []string, cb func([]model.Instance, error)) error
 	Unsubscribe(service_name, group string, clusters []string) error
+	GetAllServicesInfo(ns, group string) []string
 	Base() naming_client.INamingClient
 }
 
@@ -268,4 +269,22 @@ func GenerateMinimalConfig(space_id, username, password string, tls *constant.TL
 		ClientConfig:  clientCfg,
 		ServerConfigs: serverConfigs,
 	}, nil
+}
+func (d *discoveryClient) GetAllServicesInfo(ns, group string) []string {
+	page := uint32(0)
+	services := make([]string, 0)
+	for {
+		page++
+		list, err := d.base.GetAllServicesInfo(vo.GetAllServiceInfoParam{
+			NameSpace: ns,
+			GroupName: group,
+			PageNo:    page,
+			PageSize:  20,
+		})
+		if err != nil || len(list.Doms) == 0 {
+			break
+		}
+		services = append(services, list.Doms...)
+	}
+	return services
 }
