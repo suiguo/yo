@@ -51,7 +51,7 @@ func (c *SimpleProducerAsyncCfg) BuildOptions() *sarama.Config {
 	if c.Acks == "" {
 		opts = append(opts, WithRequiredAcks(sarama.WaitForAll))
 	}
-	if c.TLS != nil && c.TLS.Enable {
+	if c.TLS != nil {
 		opts = append(opts, WithTLS(
 			c.TLS.CertFile,
 			c.TLS.KeyFile,
@@ -59,7 +59,7 @@ func (c *SimpleProducerAsyncCfg) BuildOptions() *sarama.Config {
 			c.TLS.SkipVerify,
 		))
 	}
-	if c.SASL != nil && c.SASL.Enable {
+	if c.SASL != nil {
 		opts = append(opts, WithSASL(c.SASL.User, c.SASL.Password, c.SASL.Algo))
 	}
 	for _, o := range opts {
@@ -69,7 +69,6 @@ func (c *SimpleProducerAsyncCfg) BuildOptions() *sarama.Config {
 }
 
 type TLSCfg struct {
-	Enable     bool   `json:"enable" yaml:"enable"`
 	CertFile   string `json:"cert_file" yaml:"cert_file"`
 	KeyFile    string `json:"key_file" yaml:"key_file"`
 	CACertFile string `json:"ca_cert_file" yaml:"ca_cert_file"`
@@ -77,7 +76,6 @@ type TLSCfg struct {
 }
 
 type SASLCfg struct {
-	Enable   bool          `json:"enable" yaml:"enable"`
 	User     string        `json:"user" yaml:"user"`
 	Password string        `json:"password" yaml:"password"`
 	Algo     SASLAlgorithm `json:"algo" yaml:"algo"`

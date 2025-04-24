@@ -1,0 +1,20 @@
+brokers:
+  - kafka1:9092
+  - kafka2:9092
+client_id: my-consumer
+version: "2.6.0"
+group_id: my-group
+fetch_wait_max_ms: 500
+auto_ack: true
+initial_offset: earliest
+
+tls:
+  cert_file: "/path/to/client.crt"
+  key_file: "/path/to/client.key"
+  ca_cert_file: "/path/to/ca.crt"
+  skip_verify: false
+
+sasl:
+  user: "myuser"
+  password: "mypassword"
+  algo: "sha512"
