@@ -216,7 +216,7 @@ func GenerateMinimalConfig(space_id, username, password string, tls *constant.TL
 		constant.WithPassword(password),
 	)
 	if tls != nil {
-		clientCfg.TLSCfg = *tls
+		constant.WithTLS(*tls)(clientCfg)
 	}
 
 	var serverConfigs []constant.ServerConfig
