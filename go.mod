@@ -10,7 +10,7 @@ require (
 	github.com/IBM/sarama v1.45.1
 	github.com/bytedance/sonic v1.13.2
 	github.com/google/uuid v1.6.0
-	github.com/nacos-group/nacos-sdk-go/v2 v2.2.9
+	github.com/nacos-group/nacos-sdk-go/v2 v2.3.0
 	github.com/redis/go-redis/v9 v9.8.0
 	github.com/xdg-go/scram v1.1.2
 	go.uber.org/zap v1.27.0
