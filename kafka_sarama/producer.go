@@ -55,7 +55,7 @@ type ProducerAsync interface {
 type producerAsync struct {
 	base           sarama.AsyncProducer
 	closeCtx       context.Context
-	closeCtxCancle context.CancelFunc
+	closeCtxCancel context.CancelFunc
 	once           sync.Once
 	log            *zap.Logger
 	ProducerAsync
@@ -73,7 +73,7 @@ func (p *producerAsync) handlerError() {
 						if p.log != nil {
 							p.log.Info("producer error channel closed")
 						}
-						p.closeCtxCancle()
+						p.closeCtxCancel()
 						return
 					}
 					if p.log != nil {
@@ -92,11 +92,11 @@ func (p *producerAsync) handlerError() {
 						if p.log != nil {
 							p.log.Info("producer success channel closed")
 						}
-						p.closeCtxCancle()
+						p.closeCtxCancel()
 						return
 					}
 					if p.log != nil {
-						p.log.Error("producer success", zap.String("topic", success.Topic), zap.Int64("offset", success.Offset))
+						p.log.Info("producer success", zap.String("topic", success.Topic), zap.Int64("offset", success.Offset))
 					}
 				}
 			}
@@ -191,7 +191,7 @@ func (p *producerAsync) PushStringMessageWithKey(topic, key, data string) error 
 }
 
 func (p *producerAsync) Close() {
-	p.closeCtxCancle()
+	p.closeCtxCancel()
 	p.base.AsyncClose()
 }
 
@@ -243,7 +243,7 @@ func NewProducerAsync(brokers []string, logger *zap.Logger, config *sarama.Confi
 		base:           base,
 		log:            logger,
 		closeCtx:       ctx,
-		closeCtxCancle: cancel,
+		closeCtxCancel: cancel,
 	}
 	p.handlerError()
 

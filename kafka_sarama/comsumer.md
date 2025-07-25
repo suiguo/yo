@@ -18,7 +18,7 @@
 - 每个 session 会创建一个 goroutine，读取接收到的 kafka message
 - 每条 message 传入 channel -> handler 线程 进行处理
 - handler 线程为单 goroutine，保证线性性
-- 默认 buffer size = 64，防止系统内置阻塞
+- 默认 buffer size = 128，防止系统内置阻塞
 
 ## 设计优势
 
