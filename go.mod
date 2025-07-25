@@ -10,7 +10,7 @@ require (
 	github.com/IBM/sarama v1.45.1
 	github.com/bytedance/sonic v1.13.2
 	github.com/google/uuid v1.6.0
-	github.com/nacos-group/nacos-sdk-go/v2 v2.3.0
+	github.com/nacos-group/nacos-sdk-go/v2 v2.3.2
 	github.com/redis/go-redis/v9 v9.8.0
 	github.com/xdg-go/scram v1.1.2
 	go.uber.org/zap v1.27.0
@@ -66,7 +66,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.11 // indirect
-	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
@@ -83,7 +83,7 @@ require (
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
-	golang.org/x/arch v0.0.0-20210923205945-b76863e36670 // indirect
+	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sync v0.11.0 // indirect
